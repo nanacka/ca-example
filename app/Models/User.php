@@ -47,4 +47,27 @@ class User extends Authenticatable
     public function roles(){
         return $this->belongsToMany(Role::class, 'user_role');
     }
+
+    public function hasRole($role){
+        return null !== $this->roles()->where('name', $role)->first();
+    }
+
+
+    //not gonna actually use this but its handy. "you guys need it"
+    public function hasAnyRole($roles){
+        return null !== $this->roles()->whereIn('name', $roles)->first();
+    }
+
+
+    //example of how to use the function under the example
+    //$user->authorizeRoles('admin');
+    //$user->authorizeRoles(['admin', 'editor']);
+    
+    
+    public function authorizeRoles($roles){
+        if(is_array($roles)){
+            return $this->hasAnyRole($roles) || abort(403, "You are not authorized...");
+        }
+        return $this->hasRole($roles) || abort(403, "You are not authorized...");
+    }
 }
