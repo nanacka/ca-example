@@ -8,7 +8,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="my-6 p-6 bg-white border-b border-gray-200 shadow-sm sm:rounded-lg">
-                <form action="{{ route('books.store') }}" method="post">
+                <form action="{{ route('admin.books.store') }}" method="post">
                     @csrf
                     <x-text-input
                         type="text"
@@ -43,7 +43,7 @@
                         <select name="publisher_id">
 
                             @foreach($publishers as $publisher)
-                                <option {{old('publisher->id') == $publisher->id ? "selected" : ""}} value="{{publisher->id}}">{{$publisher->name}}</option>    
+                                <option {{old('publisher_id') == $publisher->id ? "selected" : ""}} value="{{$publisher->id}}">{{$publisher->name}}</option>    
                             @endforeach
                             
 
@@ -54,7 +54,7 @@
 
                     <div class="form-group">
                         <label for="authors"> <strong> Authors</strong> <br> </label>
-                        @foreach()
+                        @foreach($authors as $author)
                             <input type="checkbox", value="{{$author->id}}" name="authors[]">
                             <label for="">{{$author->name}}</label>
                         @endforeach
